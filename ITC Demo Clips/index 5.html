@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>SAP 통합 툴 체인 — 부스 소개</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700;900&display=swap');
+:root{--sb:#0070F2;--sd:#1B2B4B;--sl:#EBF5FF;--pd:#7C3AED;--pp:#6366F1;--pe:#059669;--pr:#D97706;--pn:#DC2626;--bg:#F8FAFC;--tx:#1E293B;--ts:#64748B;--bd:#E2E8F0}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--tx);line-height:1.7}
+
+.header{background:linear-gradient(135deg,var(--sd),#2D4A7A 50%,var(--sb));color:#fff;padding:32px 24px 36px;text-align:center;position:relative;overflow:hidden}
+.header::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 20% 50%,rgba(0,112,242,.25),transparent 50%),radial-gradient(circle at 80% 30%,rgba(45,74,122,.3),transparent 50%);pointer-events:none}
+.header h1{font-size:2.5rem;font-weight:900;margin-bottom:10px;position:relative}
+.header p{font-size:1.3rem;opacity:.9;position:relative;max-width:680px;margin:0 auto}
+
+nav.pn{display:flex;justify-content:center;gap:6px;padding:14px 24px;background:#fff;border-bottom:1px solid var(--bd);position:sticky;top:0;z-index:100;flex-wrap:wrap;box-shadow:0 1px 4px rgba(0,0,0,.05)}
+.pn a{text-decoration:none;padding:7px 16px;border-radius:50px;font-size:1.05rem;font-weight:600;border:2px solid transparent;transition:all .2s;color:var(--ts)}
+.pn a:hover{transform:translateY(-1px)}
+.pn a.d{background:#F3E8FF;color:var(--pd);border-color:var(--pd)}
+.pn a.p{background:#EEF2FF;color:var(--pp);border-color:var(--pp)}
+.pn a.e{background:#ECFDF5;color:var(--pe);border-color:var(--pe)}
+.pn a.r{background:#FFFBEB;color:var(--pr);border-color:var(--pr)}
+
+.main{max-width:1100px;margin:0 auto;padding:24px 24px 60px}
+
+.intro-block{background:linear-gradient(135deg,#F0F7FF,#EBF5FF);border:1px solid #BFDBFE;border-radius:12px;padding:20px 24px;margin-bottom:24px}
+.intro-block h2{font-size:1.55rem;font-weight:800;color:var(--sd);margin-bottom:10px}
+.intro-tool-desc{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin-top:16px}
+.intro-tool-item{background:#fff;border-radius:8px;padding:12px 14px;border:1px solid var(--bd);font-size:.92rem;color:var(--ts)}
+.intro-tool-item strong{color:var(--tx);display:block;margin-bottom:4px}
+.intro-toggle{background:none;border:1px solid var(--sb);color:var(--sb);border-radius:6px;padding:4px 12px;font-size:.85rem;cursor:pointer;font-family:'Noto Sans KR',sans-serif}
+.intro-block p{font-size:1rem;color:var(--tx);line-height:1.8;margin-bottom:12px}
+
+.intro-block p{font-size:1.08rem;color:var(--tx);line-height:1.8;margin-bottom:16px}
+.intro-tools{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:4px}
+.intro-arrow{color:var(--ts);font-size:1.2rem}
+.tlb2{display:flex;align-items:center;gap:6px;padding:6px 14px;border-radius:8px;font-size:1rem;font-weight:600;background:#fff;color:var(--sb);border:1px solid #BFDBFE}
+.sbl{width:26px;height:14px;border-radius:2px;flex-shrink:0;object-fit:contain}
+
+.flow-bar{background:#fff;border-radius:10px;overflow:hidden;display:flex;height:46px;margin-bottom:24px;box-shadow:0 1px 3px rgba(0,0,0,.06);border:1px solid var(--bd)}
+.flow-step{display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:1.02rem;flex:1;gap:5px}
+.flow-step.d{background:var(--pd)}.flow-step.p{background:var(--pp)}.flow-step.e{background:var(--pe)}.flow-step.r{background:var(--pr)}.flow-step.n{background:var(--pn)}
+
+.phases{display:grid;grid-template-columns:1fr;gap:12px;margin-bottom:28px}
+.phase-card{background:#fff;border-radius:12px;border:2px solid var(--bd);padding:18px 24px;display:grid;grid-template-columns:1fr auto;gap:14px;align-items:center;transition:all .2s;position:relative;overflow:hidden}
+.phase-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:5px}
+.phase-card.d::before{background:var(--pd)}.phase-card.p::before{background:var(--pp)}.phase-card.e::before{background:var(--pe)}.phase-card.r::before{background:var(--pr)}
+.phase-card:hover{box-shadow:0 8px 24px rgba(0,0,0,.08);transform:translateY(-2px)}
+.phase-left{padding-left:8px}
+.phase-eyebrow{display:flex;align-items:center;gap:8px;margin-bottom:7px}
+.phase-num{width:28px;height:28px;border-radius:50%;color:#fff;display:flex;align-items:center;justify-content:center;font-size:.85rem;font-weight:800;flex-shrink:0}
+.phase-num.d{background:var(--pd)}.phase-num.p{background:var(--pp)}.phase-num.e{background:var(--pe)}.phase-num.r{background:var(--pr)}
+.phase-tag{font-size:.82rem;font-weight:700;padding:2px 10px;border-radius:50px;color:#fff}
+.phase-tag.d{background:var(--pd)}.phase-tag.p{background:var(--pp)}.phase-tag.e{background:var(--pe)}.phase-tag.r{background:var(--pr)}
+.phase-card h3{font-size:1.25rem;font-weight:800;color:var(--sd);margin-bottom:5px;line-height:1.3}
+.phase-card p{font-size:1rem;color:var(--ts);line-height:1.6}
+.phase-tools{display:flex;flex-wrap:wrap;gap:5px;margin-top:8px}
+.tool-chip{font-size:.88rem;font-weight:700;padding:3px 10px;border-radius:50px}
+.tool-chip.lx{background:#CFFAFE;color:#0E7490}.tool-chip.sg{background:#EDE9FE;color:#6D28D9}.tool-chip.ca{background:#DBEAFE;color:#1D4ED8}.tool-chip.tr{background:#FCE7F3;color:#BE185D}
+.phase-action{flex-shrink:0;display:flex;flex-direction:column;gap:8px;align-items:flex-end}
+
+.vid-btn{display:inline-flex;align-items:center;gap:6px;padding:9px 18px;background:linear-gradient(135deg,var(--sd),var(--sb));color:#fff;border:none;border-radius:50px;font-size:.97rem;font-weight:700;cursor:pointer;font-family:'Noto Sans KR',sans-serif;transition:all .2s;box-shadow:0 3px 10px rgba(0,112,242,.22);white-space:nowrap}
+.vid-btn:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(0,112,242,.35)}
+.vid-btn .dur{font-size:.8rem;opacity:.8;font-weight:500}
+
+.cn{display:flex;align-items:center;justify-content:center;padding:2px 0;gap:12px}
+.cn .ln{flex:1;height:2px;background:linear-gradient(90deg,transparent,var(--bd),transparent)}
+.cn .ic{font-size:1.5rem}
+
+.summary{background:linear-gradient(135deg,var(--sd),#2D4A7A);border-radius:12px;padding:24px;color:#fff;margin-top:4px}
+.summary h2{font-size:1.3rem;font-weight:700;margin-bottom:20px;text-align:center;opacity:.9}
+.summary-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px}
+.smi{background:rgba(255,255,255,.1);border-radius:8px;padding:12px}
+.smi .em{font-size:1.3rem;margin-bottom:6px}
+.smi h3{font-size:.97rem;font-weight:700;margin-bottom:4px}
+.smi p{font-size:.9rem;opacity:.85;line-height:1.5}
+
+#video-modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.8);z-index:500;align-items:center;justify-content:center;padding:20px}
+#video-modal.open{display:flex}
+.vm-inner{background:#0A0A0F;border-radius:16px;padding:22px 22px 16px;max-width:1000px;width:92vw;position:relative;box-shadow:0 30px 80px rgba(0,0,0,.6)}
+.vm-inner video{width:100%;border-radius:8px;display:block;background:#000;max-height:72vh}
+.vm-close{position:absolute;top:12px;right:14px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.25);color:#fff;font-size:1.1rem;width:32px;height:32px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.vm-close:hover{background:rgba(255,255,255,.2)}
+.vm-title{color:#fff;font-size:1rem;font-weight:700;margin-bottom:12px;padding-right:44px}
+
+@media(max-width:768px){
+  .header h1{font-size:1.8rem}
+  .phase-card{grid-template-columns:1fr}
+  .phase-action{align-items:flex-start}
+  .main{padding:24px 16px 60px}
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1 data-i18n="title">🛠️ SAP 통합 툴 체인</h1>
+  <p data-i18n="subtitle1">LeanIX · Signavio · Cloud ALM · Tricentis를 연결한</p>
+  <p data-i18n="subtitle2">엔드-투-엔드 혁신 구현 흐름</p>
+</div>
+
+<nav class="pn">
+  <a href="#pd" class="d" data-i18n="nav1">🔍 발견</a>
+  <a href="#pp" class="p" data-i18n="nav2">📋 준비</a>
+  <a href="#pe" class="e" data-i18n="nav3">🧭 탐색</a>
+  <a href="#pr" class="r" data-i18n="nav4">⚙️ 실현 &amp; 배포</a>
+</nav>
+
+<div class="main">
+
+  <div class="intro-block">
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:10px">
+      <h2 data-i18n="intro_title">💡 SAP 통합 툴 체인(ITC)이란?</h2>
+      <button class="intro-toggle">접기</button>
+    </div>
+    <div class="intro-body">
+      <p data-i18n="intro_p1">SAP 통합 툴 체인(Integrated Toolchain, ITC)은 SAP 구현 프로젝트의 전 단계를 하나의 연결된 흐름으로 관리할 수 있도록 여러 SAP 도구들을 통합한 솔루션입니다.</p>
+      <p data-i18n="intro_p2">기존에는 아키텍처 분석, 프로세스 설계, 프로젝트 관리, 테스트 자동화를 각각 별도의 도구로 수행해야 했습니다. ITC는 이 도구들을 서로 연결하여 한 도구의 변경 사항이 다른 도구에 자동 반영되도록 함으로써 데이터 중복과 업무 단절을 없앱니다.</p>
+      <p data-i18n="intro_p3">예를 들어 LeanIX에서 생성한 전환 이니셔티브는 SAP Cloud ALM 프로젝트와 자동 동기화되고, Signavio에서 설계한 프로세스 모델은 Cloud ALM의 범위 항목으로 직접 연결됩니다.</p>
+      <div class="intro-tools">
+        <div class="tlb2"><img class="sbl" src="SAP Logo.png" alt="SAP">LeanIX</div>
+        <span class="intro-arrow">→</span>
+        <div class="tlb2"><img class="sbl" src="SAP Logo.png" alt="SAP">Signavio</div>
+        <span class="intro-arrow">→</span>
+        <div class="tlb2"><img class="sbl" src="SAP Logo.png" alt="SAP">Cloud ALM</div>
+        <span class="intro-arrow">→</span>
+        <div class="tlb2"><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#E11D48;margin-right:4px"></span>Tricentis</div>
+      </div>
+      <div class="intro-tool-desc">
+        <div class="intro-tool-item"><strong>SAP LeanIX</strong>엔터프라이즈 아키텍처 및 IT 포트폴리오 관리 — 현재와 미래의 애플리케이션 환경을 시각화합니다.</div>
+        <div class="intro-tool-item"><strong>SAP Signavio</strong>비즈니스 프로세스 설계 및 프로세스 마이닝 — 실제 운영 데이터 기반으로 프로세스를 분석하고 개선합니다.</div>
+        <div class="intro-tool-item"><strong>SAP Cloud ALM</strong>프로젝트 계획, 범위 관리, 요구사항, 테스트 조율 — 구현 프로젝트 전 과정의 허브 역할을 합니다.</div>
+        <div class="intro-tool-item"><strong>Tricentis</strong>자동화 테스트 실행 — Cloud ALM과 연동하여 SAP 시스템 테스트를 자동화합니다.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="flow-bar">
+    <div class="flow-step d" data-i18n="flow1">🔍 Discover</div>
+    <div class="flow-step p" data-i18n="flow2">📋 Prepare</div>
+    <div class="flow-step e" data-i18n="flow3">🧭 Explore</div>
+    <div class="flow-step r" data-i18n="flow4">⚙️ Realize</div>
+    <div class="flow-step n" data-i18n="flow5">🚀 Run</div>
+  </div>
+
+  <div class="phases">
+
+    <div class="phase-card d" id="pd">
+      <div class="phase-left">
+        <div class="phase-eyebrow">
+          <span class="phase-num d">1</span>
+          <span class="phase-tag d" data-i18n="p1_tag">Phase 1</span>
+        </div>
+        <h3 data-i18n="p1_title">🔍 발견 (Discovery)</h3>
+        <p data-i18n="p1_desc">LeanIX에서 현재 애플리케이션 환경을 분석하고, Signavio 프로세스 마이닝으로 실제 운영 데이터 기반의 비효율을 파악합니다.</p>
+        <div class="phase-tools">
+          <span class="tool-chip lx">LeanIX</span>
+          <span class="tool-chip sg">Signavio</span>
+        </div>
+      </div>
+      <div class="phase-action">
+        <button class="vid-btn" data-video="1.mp4" data-title="Phase 1: Discovery Demo"><span>▶</span> <span data-i18n="btn_demo">데모 보기</span> <span class="dur">· 영상</span></button>
+      </div>
+    </div>
+
+    <div class="cn"><div class="ln"></div><div class="ic">⬇️</div><div class="ln"></div></div>
+
+    <div class="phase-card p" id="pp">
+      <div class="phase-left">
+        <div class="phase-eyebrow">
+          <span class="phase-num p">2</span>
+          <span class="phase-tag p" data-i18n="p2_tag">Phase 2</span>
+        </div>
+        <h3 data-i18n="p2_title">📋 준비 (Prepare)</h3>
+        <p data-i18n="p2_desc">LeanIX에서 전환 이니셔티브를 생성하고 Cloud ALM 프로젝트와 자동 동기화합니다. 일정·마일스톤·프로젝트 계획이 두 도구에 자동 반영됩니다.</p>
+        <div class="phase-tools">
+          <span class="tool-chip lx">LeanIX</span>
+          <span class="tool-chip ca">Cloud ALM</span>
+        </div>
+      </div>
+      <div class="phase-action">
+        <button class="vid-btn" data-video="2.mp4" data-title="Phase 2: Prepare Demo"><span>▶</span> <span data-i18n="btn_demo">데모 보기</span> <span class="dur">· 영상</span></button>
+      </div>
+    </div>
+
+    <div class="cn"><div class="ln"></div><div class="ic">⬇️</div><div class="ln"></div></div>
+
+    <div class="phase-card e" id="pe">
+      <div class="phase-left">
+        <div class="phase-eyebrow">
+          <span class="phase-num e">3</span>
+          <span class="phase-tag e" data-i18n="p3_tag">Phase 3</span>
+        </div>
+        <h3 data-i18n="p3_title">🧭 탐색 (Explore)</h3>
+        <p data-i18n="p3_desc">LeanIX에서 목표 아키텍처를 설계하고, Signavio AI로 프로세스를 자동 모델링합니다. Cloud ALM에서 범위를 확정하고 Fit-to-Standard 워크숍을 진행합니다.</p>
+        <div class="phase-tools">
+          <span class="tool-chip lx">LeanIX</span>
+          <span class="tool-chip sg">Signavio</span>
+          <span class="tool-chip ca">Cloud ALM</span>
+        </div>
+      </div>
+      <div class="phase-action">
+        <button class="vid-btn" data-video="3.mp4" data-title="Phase 3: Architecture &amp; Modeling Demo"><span>▶</span> <span data-i18n="btn_arch">아키텍처·모델링</span> <span class="dur">· 영상</span></button>
+        <button class="vid-btn" data-video="4.mp4" data-title="Phase 3: Scope &amp; Fit-to-Standard Demo"><span>▶</span> <span data-i18n="btn_fts">범위·Fit-to-Standard</span> <span class="dur">· 영상</span></button>
+      </div>
+    </div>
+
+    <div class="cn"><div class="ln"></div><div class="ic">⬇️</div><div class="ln"></div></div>
+
+    <div class="phase-card r" id="pr">
+      <div class="phase-left">
+        <div class="phase-eyebrow">
+          <span class="phase-num r">4</span>
+          <span class="phase-tag r" data-i18n="p4_tag">Phase 4</span>
+        </div>
+        <h3 data-i18n="p4_title">⚙️ 실현 &amp; 배포 (Realize &amp; Deploy)</h3>
+        <p data-i18n="p4_desc">Cloud ALM에서 요구사항을 사용자 스토리로 실현하고, Tricentis 자동화 테스트로 품질을 검증합니다. 품질 게이트 통과 후 운영 환경에 배포합니다.</p>
+        <div class="phase-tools">
+          <span class="tool-chip ca">Cloud ALM</span>
+          <span class="tool-chip tr">Tricentis</span>
+        </div>
+      </div>
+      <div class="phase-action">
+        <button class="vid-btn" data-video="5.mp4" data-title="Phase 4: Realize &amp; Deploy Demo"><span>▶</span> <span data-i18n="btn_demo">데모 보기</span> <span class="dur">· 영상</span></button>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="summary">
+    <h2 data-i18n="sum_title">전체 흐름 요약</h2>
+    <div class="summary-grid">
+      <div class="smi"><div class="em">🔍</div><h3 data-i18n="sum1_h">Phase 1: 발견</h3><p data-i18n="sum1_p">애플리케이션 현황 분석 + 프로세스 마이닝으로 비효율 파악</p></div>
+      <div class="smi"><div class="em">📋</div><h3 data-i18n="sum2_h">Phase 2: 준비</h3><p data-i18n="sum2_p">전환 이니셔티브 생성 + Cloud ALM 자동 동기화</p></div>
+      <div class="smi"><div class="em">🧭</div><h3 data-i18n="sum3_h">Phase 3: 탐색</h3><p data-i18n="sum3_p">목표 아키텍처 설계 + AI 프로세스 모델링 + Fit-to-Standard</p></div>
+      <div class="smi"><div class="em">⚙️</div><h3 data-i18n="sum4_h">Phase 4: 실현</h3><p data-i18n="sum4_p">요구사항 구현 + 자동화 테스트 + 품질 게이트 통과 후 배포</p></div>
+      <div class="smi"><div class="em">🚀</div><h3 data-i18n="sum5_h">Phase 5: 운영</h3><p data-i18n="sum5_p">RISE with SAP 대시보드로 클린 코어 전환 여정 지속 모니터링</p></div>
+    </div>
+  </div>
+
+</div>
+
+<div id="video-modal">
+  <div class="vm-inner">
+    <button class="vm-close" aria-label="닫기">✕</button>
+    <div class="vm-title"></div>
+    <video controls preload="metadata"></video>
+  </div>
+</div>
+
+<script>
+const TX = {
+  ko: {
+    title:'🛠️ SAP 통합 툴 체인',
+    subtitle1:'LeanIX · Signavio · Cloud ALM · Tricentis를 연결한',
+    subtitle2:'엔드-투-엔드 혁신 구현 흐름',
+    nav1:'🔍 발견', nav2:'📋 준비', nav3:'🧭 탐색', nav4:'⚙️ 실현 & 배포',
+    intro_title:'💡 SAP 통합 툴 체인(ITC)이란?',
+    intro_p1:'SAP 통합 툴 체인(Integrated Toolchain, ITC)은 SAP 구현 프로젝트의 전 단계를 하나의 연결된 흐름으로 관리할 수 있도록 여러 SAP 도구들을 통합한 솔루션입니다.',
+    intro_p2:'기존에는 아키텍처 분석, 프로세스 설계, 프로젝트 관리, 테스트 자동화를 각각 별도의 도구로 수행해야 했습니다. ITC는 이 도구들을 서로 연결하여 한 도구의 변경 사항이 다른 도구에 자동 반영되도록 함으로써 데이터 중복과 업무 단절을 없앱니다.',
+    intro_p3:'예를 들어 LeanIX에서 생성한 전환 이니셔티브는 SAP Cloud ALM 프로젝트와 자동 동기화되고, Signavio에서 설계한 프로세스 모델은 Cloud ALM의 범위 항목으로 직접 연결됩니다.',
+    intro_desc:'아키텍처 분석, 프로세스 설계, 프로젝트 관리, 테스트 자동화를 하나의 연결된 흐름으로 통합합니다. 각 도구의 변경 사항이 자동으로 연동되어 데이터 중복과 업무 단절을 없앱니다.',
+    flow1:'🔍 Discover', flow2:'📋 Prepare', flow3:'🧭 Explore', flow4:'⚙️ Realize', flow5:'🚀 Run',
+    p1_tag:'Phase 1', p1_title:'🔍 발견 (Discovery)',
+    p1_desc:'LeanIX에서 현재 애플리케이션 환경을 분석하고, Signavio 프로세스 마이닝으로 실제 운영 데이터 기반의 비효율을 파악합니다.',
+    p2_tag:'Phase 2', p2_title:'📋 준비 (Prepare)',
+    p2_desc:'LeanIX에서 전환 이니셔티브를 생성하고 Cloud ALM 프로젝트와 자동 동기화합니다. 일정·마일스톤·프로젝트 계획이 두 도구에 자동 반영됩니다.',
+    p3_tag:'Phase 3', p3_title:'🧭 탐색 (Explore)',
+    p3_desc:'LeanIX에서 목표 아키텍처를 설계하고, Signavio AI로 프로세스를 자동 모델링합니다. Cloud ALM에서 범위를 확정하고 Fit-to-Standard 워크숍을 진행합니다.',
+    p4_tag:'Phase 4', p4_title:'⚙️ 실현 & 배포 (Realize & Deploy)',
+    p4_desc:'Cloud ALM에서 요구사항을 사용자 스토리로 실현하고, Tricentis 자동화 테스트로 품질을 검증합니다. 품질 게이트 통과 후 운영 환경에 배포합니다.',
+    btn_demo:'데모 보기', btn_arch:'아키텍처·모델링', btn_fts:'범위·Fit-to-Standard',
+    sum_title:'전체 흐름 요약',
+    sum1_h:'Phase 1: 발견', sum1_p:'애플리케이션 현황 분석 + 프로세스 마이닝으로 비효율 파악',
+    sum2_h:'Phase 2: 준비', sum2_p:'전환 이니셔티브 생성 + Cloud ALM 자동 동기화',
+    sum3_h:'Phase 3: 탐색', sum3_p:'목표 아키텍처 설계 + AI 프로세스 모델링 + Fit-to-Standard',
+    sum4_h:'Phase 4: 실현', sum4_p:'요구사항 구현 + 자동화 테스트 + 품질 게이트 통과 후 배포',
+    sum5_h:'Phase 5: 운영', sum5_p:'RISE with SAP 대시보드로 클린 코어 전환 여정 지속 모니터링',
+  },
+  en: {
+    title:'🛠️ SAP Integrated Toolchain',
+    subtitle1:'Connecting LeanIX · Signavio · Cloud ALM · Tricentis',
+    subtitle2:'End-to-end transformation implementation flow',
+    nav1:'🔍 Discover', nav2:'📋 Prepare', nav3:'🧭 Explore', nav4:'⚙️ Realize & Deploy',
+    intro_title:'💡 What is the SAP Integrated Toolchain (ITC)?',
+    intro_p1:'The SAP Integrated Toolchain (ITC) unifies every phase of an SAP implementation project into a single connected flow.',
+    intro_p2:'Previously, architecture analysis, process design, project management, and test automation each required separate tools. ITC connects them so that changes in one tool are automatically reflected in others — eliminating data duplication and workflow gaps.',
+    intro_p3:'For example, a transformation initiative created in LeanIX automatically syncs to an SAP Cloud ALM project, and a process model designed in Signavio connects directly to Cloud ALM as a scope item.',
+    intro_desc:'Architecture analysis, process design, project management, and test automation — unified in a single connected flow. Changes in one tool automatically sync to others, eliminating data duplication and workflow gaps.',
+    flow1:'🔍 Discover', flow2:'📋 Prepare', flow3:'🧭 Explore', flow4:'⚙️ Realize', flow5:'🚀 Run',
+    p1_tag:'Phase 1', p1_title:'🔍 Discover',
+    p1_desc:'Analyze your current application landscape in LeanIX, and identify process inefficiencies using Signavio process mining based on real operational data.',
+    p2_tag:'Phase 2', p2_title:'📋 Prepare',
+    p2_desc:'Create a transformation initiative in LeanIX and automatically sync it with a Cloud ALM project. Timelines, milestones, and project plans are reflected in both tools.',
+    p3_tag:'Phase 3', p3_title:'🧭 Explore',
+    p3_desc:'Design the target architecture in LeanIX and auto-generate process models with Signavio AI. Finalize scope in Cloud ALM and run Fit-to-Standard workshops.',
+    p4_tag:'Phase 4', p4_title:'⚙️ Realize & Deploy',
+    p4_desc:'Realize requirements as user stories in Cloud ALM and validate quality with Tricentis automated testing. Deploy to production after passing the quality gate.',
+    btn_demo:'Watch Demo', btn_arch:'Architecture & Modeling', btn_fts:'Scope & Fit-to-Standard',
+    sum_title:'Flow Summary',
+    sum1_h:'Phase 1: Discover', sum1_p:'Application landscape analysis + process mining to identify inefficiencies',
+    sum2_h:'Phase 2: Prepare', sum2_p:'Create transformation initiative + auto-sync with Cloud ALM',
+    sum3_h:'Phase 3: Explore', sum3_p:'Target architecture design + AI process modeling + Fit-to-Standard',
+    sum4_h:'Phase 4: Realize', sum4_p:'Requirements implementation + automated testing + deploy after quality gate',
+    sum5_h:'Phase 5: Run', sum5_p:'Monitor clean core transformation journey via RISE with SAP dashboard',
+  }
+};
+
+let LANG = 'ko';
+
+function applyLang(lang) {
+  LANG = lang;
+  const T = TX[lang];
+  ['intro_p1','intro_p2','intro_p3'].forEach(k => { const el=document.querySelector('[data-i18n="'+k+'"]'); if(el&&T[k]) el.textContent=T[k]; });
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.dataset.i18n;
+    if (T[key] !== undefined) el.textContent = T[key];
+  });
+  document.documentElement.lang = lang;
+}
+
+// postMessage 수신 (부모 페이지에서 언어 전달)
+window.addEventListener('message', e => {
+  if (e.data && e.data.type === 'setLang') applyLang(e.data.lang);
+});
+
+// 네비게이션 스크롤
+document.querySelectorAll('.pn a').forEach(a => {
+  a.addEventListener('click', e => {
+    e.preventDefault();
+    const t = document.querySelector(a.getAttribute('href'));
+    if (t) t.scrollIntoView({behavior:'smooth', block:'start'});
+  });
+});
+
+// 영상 모달
+const modal = document.getElementById('video-modal');
+const modalVideo = modal.querySelector('video');
+const modalTitle = modal.querySelector('.vm-title');
+function openVideo(src, title) { modalVideo.src=src; modalTitle.textContent=title; modal.classList.add('open'); modalVideo.play().catch(()=>{}); }
+function closeVideo() { modal.classList.remove('open'); modalVideo.pause(); modalVideo.removeAttribute('src'); modalVideo.load(); }
+modal.querySelector('.vm-close').addEventListener('click', closeVideo);
+modal.addEventListener('click', e => { if (e.target===modal) closeVideo(); });
+document.addEventListener('keydown', e => { if (e.key==='Escape') closeVideo(); });
+document.querySelectorAll('.vid-btn').forEach(btn => {
+  btn.addEventListener('click', e => { e.stopPropagation(); openVideo(btn.dataset.video, btn.dataset.title); });
+});
+
+// 접기/펼치기
+document.querySelector('.intro-toggle')?.addEventListener('click', function() {
+  const body = document.querySelector('.intro-body');
+  const collapsed = body.style.display === 'none';
+  body.style.display = collapsed ? '' : 'none';
+  this.textContent = collapsed ? '접기' : '펼치기';
+});
+</script>
+</body>
+</html>

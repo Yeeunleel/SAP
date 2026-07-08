@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>SAP AI Agent Hub — 부스 도슨트</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700;800;900&display=swap');
+:root{
+  --pp:#7C3AED;
+  --pp2:#6366F1;
+  --pp-dark:#4C1D95;
+  --pp-soft:#F5F3FF;
+  --pp-mid:#EDE9FE;
+  --sd:#0A1628;
+  --sb:#0070F2;
+  --bg:#FAFAFE;
+  --tx:#0F172A;
+  --ts:#475569;
+  --bd:#E2E8F0;
+  --warn:#DC2626;
+  --ok:#059669;
+  --soft:#F1F5F9;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--tx);line-height:1.7;-webkit-font-smoothing:antialiased}
+
+/* HEADER */
+.hd{background:linear-gradient(135deg,var(--sd) 0%,#1E1B4B 50%,var(--pp-dark) 100%);color:#fff;padding:32px 24px 36px;text-align:center;position:relative;overflow:hidden}
+.hd::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 20% 50%,rgba(124,58,237,.3),transparent 50%),radial-gradient(circle at 80% 30%,rgba(99,102,241,.25),transparent 50%);pointer-events:none}
+.hd-eyebrow{display:inline-block;padding:4px 14px;border-radius:50px;background:rgba(255,255,255,.15);font-size:.95rem;font-weight:600;letter-spacing:.5px;margin-bottom:10px;border:1px solid rgba(255,255,255,.25);position:relative}
+.hd h1{font-size:2.6rem;font-weight:900;margin-bottom:10px;line-height:1.3;position:relative}
+.hd h1 .hl{background:linear-gradient(135deg,#A78BFA,#818CF8);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.hd p{font-size:1.15rem;opacity:.92;max-width:640px;margin:0 auto;position:relative;font-weight:400}
+
+/* NAV */
+nav.bn{display:flex;justify-content:center;gap:8px;padding:12px 24px;background:#fff;border-bottom:1px solid var(--bd);position:sticky;top:0;z-index:100;flex-wrap:wrap;box-shadow:0 1px 4px rgba(0,0,0,.04)}
+.bn a{text-decoration:none;padding:8px 20px;border-radius:50px;font-size:1rem;font-weight:700;color:var(--ts);transition:all .15s;border:2px solid transparent}
+.bn a:hover{background:var(--pp-soft);color:var(--pp);transform:translateY(-1px)}
+.bn a.act{background:var(--pp);color:#fff}
+
+.main{max-width:1180px;margin:0 auto;padding:28px 24px 60px}
+
+/* SECTION TITLES */
+.st-num{display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px;border-radius:12px;background:linear-gradient(135deg,var(--pp),var(--pp2));color:#fff;font-size:1.2rem;font-weight:800;margin-right:12px;box-shadow:0 4px 12px rgba(124,58,237,.25)}
+.sec-title{display:flex;align-items:center;font-size:1.75rem;font-weight:800;color:var(--sd);margin-bottom:6px}
+.sec-sub{font-size:1.05rem;color:var(--ts);margin-bottom:16px;margin-left:52px}
+
+/* BLOCK 1 — WHY */
+.why{margin-bottom:44px}
+.why-head{text-align:center;margin-bottom:22px}
+.why-head h2{font-size:2rem;font-weight:900;color:var(--sd);line-height:1.35;margin-bottom:6px}
+.why-head h2 .warn{background:linear-gradient(120deg,var(--warn),#F87171);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.why-head p{font-size:1.1rem;color:var(--ts)}
+
+.why-grid{display:grid;grid-template-columns:1fr 1.1fr 1fr;gap:14px;margin-bottom:20px}
+.why-col{background:#fff;border-radius:14px;padding:18px 18px;border:2px solid var(--bd);box-shadow:0 2px 8px rgba(0,0,0,.04);display:flex;flex-direction:column}
+.why-col.mid{border-color:var(--pp);background:linear-gradient(180deg,#fff,var(--pp-soft));box-shadow:0 8px 28px rgba(124,58,237,.12);transform:scale(1.02)}
+.why-col-tag{display:inline-block;align-self:flex-start;padding:4px 12px;border-radius:50px;font-size:.98rem;font-weight:700;margin-bottom:14px}
+.why-col.left .why-col-tag{background:#DBEAFE;color:#1D4ED8}
+.why-col.mid .why-col-tag{background:var(--pp);color:#fff}
+.why-col.right .why-col-tag{background:var(--sd);color:#fff}
+.why-col h3{font-size:1.2rem;font-weight:800;color:var(--sd);margin-bottom:12px;line-height:1.4}
+
+.agent-pills{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:16px}
+.agent-pill{font-size:.9rem;font-weight:600;padding:5px 11px;border-radius:50px;background:var(--pp-soft);color:var(--pp-dark);border:1px solid var(--pp-mid);display:inline-flex;align-items:center;gap:5px}
+.agent-pill::before{content:'';width:7px;height:7px;border-radius:50%;background:var(--pp)}
+.stat-block{background:var(--sd);color:#fff;border-radius:10px;padding:10px 14px;font-size:.95rem;font-weight:700;margin-top:8px;text-align:center}
+.stat-block + .stat-block{margin-top:7px}
+
+.big-stat{font-size:3.2rem;font-weight:900;text-align:center;margin:6px 0 4px;line-height:1}
+.big-stat .num1{color:var(--pp)}
+.big-stat .arr{color:var(--ts);font-weight:600;margin:0 6px}
+.big-stat .num2{color:var(--warn)}
+.big-stat-sub{display:flex;justify-content:space-between;font-size:.88rem;color:var(--ts);margin-bottom:12px;padding:0 4px}
+.big-stat-sub span{flex:1;text-align:center;line-height:1.4}
+.shadow-warn{background:#FEF3C7;border:1.5px solid #F59E0B;border-radius:10px;padding:9px 12px;margin:12px 0;font-size:.95rem;font-weight:700;color:#92400E;text-align:center}
+.q-list{list-style:none;padding:0}
+.q-list li{font-size:1rem;color:var(--tx);padding:8px 0;border-bottom:1px dashed var(--bd);font-weight:500}
+.q-list li:last-child{border-bottom:none}
+.q-list li .qt{color:var(--pp);font-weight:700;margin-right:5px}
+
+.hub-steps{list-style:none;padding:0}
+.hub-steps li{display:flex;gap:9px;padding:6px 0;font-size:1.02rem;color:var(--tx);font-weight:500;align-items:flex-start}
+.hub-steps li .nm{flex-shrink:0;width:22px;height:22px;border-radius:50%;background:var(--pp);color:#fff;display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:800;margin-top:2px}
+.hub-steps li b{color:var(--sd);font-weight:700}
+
+.why-close{background:linear-gradient(135deg,var(--sd),var(--pp-dark));color:#fff;border-radius:10px;padding:14px 20px;text-align:center;font-size:1.15rem;font-weight:700}
+.why-close .hl{color:#A78BFA}
+
+/* BLOCK 2 — WHAT */
+.what{margin-bottom:44px}
+.what-def{background:linear-gradient(135deg,#fff,var(--pp-soft));border:2px solid var(--pp);border-radius:16px;padding:20px 28px;margin:0 0 16px 52px;box-shadow:0 6px 20px rgba(124,58,237,.08)}
+.what-def p{font-size:1.28rem;font-weight:700;color:var(--sd);line-height:1.6;letter-spacing:-.2px}
+.what-def p .hl{color:var(--pp);background:#fff;padding:0 6px;border-radius:5px;box-shadow:0 1px 3px rgba(124,58,237,.12)}
+.what-def p .sub{display:block;font-size:1.05rem;font-weight:500;color:var(--ts);margin-top:8px}
+.what-grid-2x2{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-left:52px}
+.what-card{background:#fff;border-radius:12px;padding:16px 18px;border:2px solid var(--bd);transition:all .2s;display:flex;flex-direction:column}
+.what-card:hover{border-color:var(--pp);transform:translateY(-3px);box-shadow:0 8px 22px rgba(124,58,237,.1)}
+.what-icon{display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:10px;background:var(--pp-soft);color:var(--pp);font-size:1.3rem;margin-bottom:9px}
+.what-card h4{font-size:1.22rem;font-weight:800;color:var(--sd);margin-bottom:5px}
+.what-card p{font-size:1.02rem;color:var(--ts);line-height:1.6}
+.what-card .tech-note{font-size:.82rem;color:var(--pp-dark);margin-top:6px;opacity:.8}
+.what-card-hd{display:flex;align-items:center;gap:12px;margin-bottom:8px}
+.what-card-hd .what-icon{margin-bottom:0;flex-shrink:0}
+.what-card-hd h4{margin-bottom:0}
+
+/* BLOCK 3 — HOW */
+.how{margin-bottom:44px}
+.lc-flow{display:flex;justify-content:center;gap:6px;margin-bottom:18px;flex-wrap:wrap}
+.lc-step{display:flex;align-items:center;gap:7px;padding:9px 16px;background:var(--pp-soft);border-radius:50px;font-size:1rem;font-weight:700;color:var(--pp-dark)}
+.lc-arrow{color:var(--ts);font-size:1.2rem;align-self:center}
+.cards{display:grid;grid-template-columns:1fr;gap:12px}
+.card{background:#fff;border-radius:14px;border:2px solid var(--bd);padding:0;overflow:hidden;transition:all .2s;display:grid;grid-template-columns:66px 1fr auto;align-items:stretch}
+.card:hover{border-color:var(--pp);box-shadow:0 8px 28px rgba(124,58,237,.1);transform:translateY(-2px)}
+.card-num{background:linear-gradient(180deg,var(--pp),var(--pp2));color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:1.6rem;font-weight:900;padding:14px 0;gap:3px}
+.card-num .stage{font-size:.65rem;font-weight:700;letter-spacing:1px;opacity:.85}
+.card-body{padding:16px 20px}
+.card-body h3{font-size:1.48rem;font-weight:800;color:var(--sd);margin-bottom:5px;line-height:1.3}
+.card-q{font-size:1.05rem;color:var(--pp);font-weight:700;margin-bottom:9px;font-style:italic}
+.card-q::before{content:'❝ '}
+.card-q::after{content:' ❞'}
+.card-desc{font-size:1.03rem;color:var(--tx);line-height:1.65;margin-bottom:10px}
+.card-tip{background:var(--soft);border-left:3px solid var(--pp);padding:8px 12px;border-radius:0 7px 7px 0;font-size:.97rem;color:var(--ts)}
+.card-tip strong{color:var(--pp-dark)}
+.card-action{display:flex;align-items:center;padding:16px 20px 16px 8px}
+.card-action-multi{flex-direction:column;gap:9px;align-items:stretch;justify-content:center}
+.card-action-multi .vid-btn{width:100%;justify-content:center}
+.vid-btn-sm{font-size:.9rem;padding:9px 16px;background:#fff!important;color:var(--pp)!important;border:2px solid var(--pp)!important;box-shadow:none!important}
+.vid-btn-sm:hover{background:var(--pp-soft)!important;transform:none!important}
+.vid-btn{display:inline-flex;align-items:center;gap:7px;padding:12px 22px;background:linear-gradient(135deg,var(--pp),var(--pp2));color:#fff;border:none;border-radius:50px;font-size:1rem;font-weight:800;cursor:pointer;font-family:inherit;transition:all .2s;box-shadow:0 4px 14px rgba(124,58,237,.3);white-space:nowrap}
+.vid-btn:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(124,58,237,.4)}
+.vid-btn .play{font-size:.82rem}
+.vid-btn .dur{font-size:.78rem;opacity:.85;font-weight:600}
+
+/* BLOCK 4 — BONUS */
+.bonus{background:linear-gradient(135deg,var(--pp-soft),#fff);border-radius:16px;padding:24px;margin-bottom:20px;border:1.5px solid var(--pp-mid)}
+.bonus-eyebrow{display:inline-block;padding:4px 12px;background:var(--pp);color:#fff;border-radius:50px;font-size:.88rem;font-weight:700;margin-bottom:12px}
+.bonus h2{font-size:1.75rem;font-weight:800;color:var(--sd);margin-bottom:6px}
+.bonus-sub{font-size:1.05rem;color:var(--ts);margin-bottom:20px}
+.bonus-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+.bonus-card{background:#fff;border-radius:10px;padding:16px;border:1.5px solid var(--bd);display:flex;flex-direction:column}
+.bonus-card .icon{font-size:1.6rem;margin-bottom:9px}
+.bonus-card h4{font-size:1.15rem;font-weight:800;color:var(--sd);margin-bottom:5px}
+.bonus-card p{font-size:.98rem;color:var(--ts);line-height:1.6;margin-bottom:12px;flex:1}
+.bonus-card .vid-btn{font-size:.9rem;padding:9px 16px;align-self:flex-start}
+
+/* CLOSING */
+.closing{background:linear-gradient(135deg,var(--sd),var(--pp-dark));color:#fff;border-radius:14px;padding:28px 32px;text-align:center;position:relative;overflow:hidden}
+.closing::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 30% 20%,rgba(167,139,250,.18),transparent 50%),radial-gradient(circle at 70% 80%,rgba(99,102,241,.15),transparent 50%);pointer-events:none}
+.closing .closing-lead{font-size:1.18rem;opacity:.95;max-width:700px;margin:0 auto 24px;line-height:1.8;position:relative}
+.closing .closing-lead strong{color:#A78BFA;font-weight:800}
+.closing-tag{display:inline-flex;flex-direction:column;align-items:center;gap:4px;padding:16px 32px;background:rgba(255,255,255,.08);border:1.5px solid rgba(167,139,250,.4);border-radius:14px;margin-bottom:16px;position:relative;font-size:1.35rem;font-weight:900;color:#fff;letter-spacing:.3px}
+.closing-tag-sub{font-size:.85rem;font-weight:600;color:#C4B5FD;letter-spacing:.5px}
+.closing .stack{display:flex;justify-content:center;gap:8px;margin-top:22px;flex-wrap:wrap;position:relative}
+.closing .stack span{padding:6px 13px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:50px;font-size:.85rem;font-weight:600}
+
+/* MODAL */
+#vm{display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:500;align-items:center;justify-content:center;padding:20px}
+#vm.open{display:flex}
+.vm-inner{background:#0A0A0F;border-radius:18px;padding:22px 22px 16px;max-width:1100px;width:96vw;position:relative;box-shadow:0 30px 80px rgba(0,0,0,.6)}
+.vm-inner video{width:100%;border-radius:10px;display:block;background:#000;max-height:70vh}
+.vm-close{position:absolute;top:13px;right:16px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.25);color:#fff;font-size:1.1rem;width:34px;height:34px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.vm-close:hover{background:rgba(255,255,255,.2)}
+.vm-title{color:#fff;font-size:1.05rem;font-weight:800;margin-bottom:12px;padding-right:46px}
+.vm-cap{color:#A78BFA;font-size:.9rem;font-weight:600;margin-top:10px;line-height:1.6}
+
+/* RESPONSIVE */
+@media(max-width:920px){
+  .hd h1{font-size:2rem}
+  .hd p{font-size:1rem}
+  .why-grid{grid-template-columns:1fr}
+  .why-col.mid{transform:none}
+  .card{grid-template-columns:60px 1fr;gap:0}
+  .card-action{padding:0 22px 22px;grid-column:1/-1;justify-content:flex-end}
+  .card-num{font-size:1.4rem;padding:12px 0}
+  .what-def{margin-left:0;padding:24px 20px}
+  .what-def p{font-size:1.1rem}
+  .what-grid-2x2{grid-template-columns:1fr;margin-left:0}
+  .sec-title{font-size:1.4rem}
+  .sec-sub{margin-left:0}
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="hd">
+  <span class="hd-eyebrow">SAP Business AI Platform · Governance</span>
+  <h1>SAP <span class="hl">AI Agent Hub</span></h1>
+  <p>기업의 모든 AI Agent를 한곳에서 발견하고 관리하는 거버넌스 플랫폼</p>
+</div>
+
+<!-- NAV -->
+<nav class="bn">
+  <a href="#why">Why</a>
+  <a href="#what">What</a>
+  <a href="#how">How</a>
+  <a href="#anywhere">Integration</a>
+</nav>
+
+<div class="main">
+
+<!-- ══════ BLOCK 1: WHY ══════ -->
+<section class="why" id="why">
+  <div class="why-head">
+    <h2>AI Agent가 늘어날수록,<br>통제되지 않는 <span class="warn">Shadow AI</span> 리스크도 커집니다</h2>
+    <p>AI Agent는 빠르게 늘어나고 있지만, 이를 관리하는 체계는 아직 부족합니다.</p>
+  </div>
+
+  <div class="why-grid">
+    <!-- LEFT -->
+    <div class="why-col left">
+      <span class="why-col-tag">AI Agent 확산</span>
+      <h3>각 부서와 플랫폼에서<br>AI Agent가 빠르게 생성되고 있습니다</h3>
+      <div class="agent-pills">
+        <span class="agent-pill">재무 Agent</span>
+        <span class="agent-pill">구매 Agent</span>
+        <span class="agent-pill">영업 Agent</span>
+        <span class="agent-pill">서비스 Agent</span>
+        <span class="agent-pill">커스텀 Agent</span>
+        <span class="agent-pill">서드파티 Agent</span>
+        <span class="agent-pill">MCP 서버</span>
+        <span class="agent-pill">LLM</span>
+      </div>
+      <div style="flex:1"></div>
+      <div class="stat-block">130,000+개 Agent 발견</div>
+      <div class="stat-block">150+ 고객 환경에서 확인</div>
+    </div>
+
+    <!-- MIDDLE -->
+    <div class="why-col mid">
+      <span class="why-col-tag">거버넌스 공백</span>
+      <div class="big-stat">
+        <span class="num1">74%</span><span class="arr">→</span><span class="num2">21%</span>
+      </div>
+      <div class="big-stat-sub">
+        <span>AI Agent 활용을<br>기대하는 기업</span>
+        <span>실제 거버넌스 체계를<br>갖춘 기업</span>
+      </div>
+      <div class="shadow-warn">⚠️ SHADOW AI 리스크<br><span style="font-weight:600;font-size:.88rem;color:#78350F">Agent는 늘어나지만, 관리 체계가 없습니다</span></div>
+      <ul class="q-list">
+        <li><span class="qt">가시성 부족</span>우리 회사에 어떤 Agent가 있나요?</li>
+        <li><span class="qt">책임 불명확</span>누가 승인하고 운영 책임을 지나요?</li>
+        <li><span class="qt">성과 불투명</span>실제로 성과를 내고 있나요?</li>
+      </ul>
+    </div>
+
+    <!-- RIGHT -->
+    <div class="why-col right">
+      <span class="why-col-tag">SAP AI Agent Hub</span>
+      <h3>AI Agent를 <span style="color:var(--pp)">체계적으로 관리</span>합니다</h3>
+      <ul class="hub-steps">
+        <li><span class="nm">1</span><span><b>현황 파악</b> — 전사 Agent 인벤토리</span></li>
+        <li><span class="nm">2</span><span><b>책임 관리</b> — 소유자·승인 상태</span></li>
+        <li><span class="nm">3</span><span><b>라이프사이클</b> — 생성부터 폐기까지</span></li>
+        <li><span class="nm">4</span><span><b>리스크 관리</b> — 접근 권한 확인</span></li>
+        <li><span class="nm">5</span><span><b>맥락 연결</b> — 업무·시스템·데이터 연결</span></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="why-close">
+    AI Agent 확산의 다음 과제는 개발이 아니라 <span class="hl">거버넌스</span>입니다.
+  </div>
+</section>
+
+<!-- ══════ BLOCK 2: WHAT ══════ -->
+<section class="what" id="what">
+  <div class="sec-title"><span class="st-num">2</span>SAP AI Agent Hub란?</div>
+
+  <div class="what-def">
+    <p>기업의 모든 <span class="hl">AI Agent</span>를 한곳에서 발견하고 관리하는 플랫폼입니다.<span class="sub">SAP뿐 아니라 Microsoft, Google, AWS 등 다양한 AI 환경도 함께 관리할 수 있습니다.</span></p>
+  </div>
+
+  <div class="what-grid-2x2">
+    <div class="what-card">
+      <div class="what-card-hd"><div class="what-icon">🔓</div><h4>벤더 중립</h4></div>
+      <p>어디서 만든 Agent든 한곳에서 통합 관리합니다.</p>
+      <p class="tech-note">SAP · Microsoft · Google · AWS · ServiceNow 지원</p>
+    </div>
+    <div class="what-card">
+      <div class="what-card-hd"><div class="what-icon">🏛️</div><h4>비즈니스 컨텍스트 연결</h4></div>
+      <p>Agent를 업무 기능·시스템·데이터와 자동으로 연결합니다.</p>
+      <p class="tech-note">SAP LeanIX 기반</p>
+    </div>
+    <div class="what-card">
+      <div class="what-card-hd"><div class="what-icon">📊</div><h4>실제 성과 측정</h4></div>
+      <p>Agent가 실제로 비즈니스 성과를 내는지 검증합니다.</p>
+      <p class="tech-note">SAP Signavio Agent Mining 기반</p>
+    </div>
+    <div class="what-card">
+      <div class="what-card-hd"><div class="what-icon">👥</div><h4>조직 영향 파악</h4></div>
+      <p>어떤 부서와 역할이 Agent로 바뀌는지 한눈에 보여줍니다.</p>
+      <p class="tech-note">SAP SuccessFactors 연동</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══════ BLOCK 3: HOW ══════ -->
+<section class="how" id="how">
+  <div class="sec-title"><span class="st-num">3</span>어떻게 동작하는가</div>
+  <p class="sec-sub">핵심 3단계 — 각 카드의 영상 버튼을 클릭해 보세요</p>
+
+  <div class="lc-flow">
+    <div class="lc-step">🏛️ Plan</div>
+    <span class="lc-arrow">→</span>
+    <div class="lc-step">🔍 Discover</div>
+    <span class="lc-arrow">→</span>
+    <div class="lc-step">🛡️ Govern & Optimize</div>
+  </div>
+
+  <div class="cards">
+
+    <!-- CARD 1 -->
+    <div class="card">
+      <div class="card-num">1<span class="stage">PLAN</span></div>
+      <div class="card-body">
+        <h3>Plan & Build — 처음부터 컨텍스트와 함께</h3>
+        <div class="card-q">새 Agent가 회사의 업무와 시스템을 처음부터 알게 할 수 있을까요?</div>
+        <p class="card-desc">Agent를 만드는 순간부터 거버넌스가 시작됩니다. 회사의 시스템 정보를 자동으로 조회해 <strong>기존 Agent·관련 시스템을 자동으로 연결</strong>합니다.</p>
+        <p class="card-tip"><strong>기술:</strong> Joule Studio + LeanIX MCP 서버 실시간 아키텍처 조회</p>
+      </div>
+      <div class="card-action">
+        <button class="vid-btn" data-video="2.mp4" data-title="① Plan & Build" data-cap="Joule Studio에서 LeanIX MCP 서버가 아키텍처를 라이브로 조회 — 관련 시스템이 자동 식별됨"><span class="play">▶</span> 데모 보기 <span class="dur">· 42초</span></button>
+      </div>
+    </div>
+
+    <!-- CARD 2 -->
+    <div class="card">
+      <div class="card-num">2<span class="stage">DISCOVER</span></div>
+      <div class="card-body">
+        <h3>발견 & 인벤토리</h3>
+        <div class="card-q">우리 회사에 어떤 Agent가 돌아가는지 한눈에 볼 수 있나요?</div>
+        <p class="card-desc">회사에서 사용 중인 <strong>모든 AI Agent를 자동으로 찾아 목록</strong>으로 보여줍니다. 실행 이력과 도구 호출 현황까지 한 화면에서 확인할 수 있습니다.</p>
+        <p class="card-tip"><strong>기술:</strong> Discovery Inbox · SAP, Microsoft, AWS 등 지원 · SAP Cloud ALM 연동</p>
+      </div>
+      <div class="card-action card-action-multi">
+        <button class="vid-btn" data-video="3_ko.mp4" data-title="② AI Agent 인벤토리 조회" data-cap="기업 전체 AI Agent 인벤토리 자동 발견 및 조회"><span class="play">▶</span> Agent 인벤토리 조회 <span class="dur">· 영상</span></button>
+        <button class="vid-btn vid-btn-sm" data-video="3.mp4" data-title="② Cloud ALM 데이터 연동" data-cap="AI Agent 발견 인박스 + SAP Cloud ALM 텔레메트리 데이터"><span class="play">▶</span> SAP Cloud ALM 연동 <span class="dur">· 54초</span></button>
+      </div>
+    </div>
+
+    <!-- CARD 3 -->
+    <div class="card">
+      <div class="card-num">3<span class="stage">GOVERN</span></div>
+      <div class="card-body">
+        <h3>검증 · 거버넌스 · 성과 측정</h3>
+        <div class="card-q">승인된 Agent만 운영되고, 실제로 성과를 내고 있는지 어떻게 알 수 있나요?</div>
+        <p class="card-desc"><strong>검증을 마친 Agent만 운영에서 동작</strong>합니다. 상태가 바뀌면 즉시 액세스가 차단됩니다. Agent의 실행 기록을 분석해 <strong>"어디서, 왜 안 되는지"</strong>까지 파악할 수 있습니다.</p>
+        <p class="card-tip"><strong>기술:</strong> SAP Signavio Agent Mining · SAP Cloud ALM 연동</p>
+      </div>
+      <div class="card-action">
+        <button class="vid-btn" data-video="4_ko.mp4" data-title="③ 검증 & 성과 측정" data-cap="SAP Signavio Agent Mining으로 실행 경로·편차 분석"><span class="play">▶</span> 데모 보기 <span class="dur">· 영상</span></button>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══════ BLOCK 4: ANYWHERE ══════ -->
+<section class="bonus" id="anywhere">
+  <span class="bonus-eyebrow">BONUS</span>
+  <h2>다양한 툴과의 연동 지원</h2>
+  <p class="bonus-sub">이미 사용 중인 AI 도구에서 동일한 거버넌스 정보를 사용할 수 있습니다.</p>
+
+  <div class="bonus-grid">
+    <div class="bonus-card">
+      <div class="icon">🤖</div>
+      <h4>Claude · Copilot 연동</h4>
+      <p>익숙한 AI 어시스턴트에서 Agent 인벤토리 조회와 거버넌스를 바로 실행할 수 있습니다.</p>
+      <button class="vid-btn" data-video="6.mp4" data-title="🔌 Claude · Copilot 거버넌스" data-cap="MCP 앱 — 익숙한 AI 어시스턴트에서 동일한 거버넌스 경험"><span class="play">▶</span> 데모 보기 <span class="dur">· 60초</span></button>
+    </div>
+
+
+  </div>
+</section>
+
+<!-- CLOSING -->
+<div class="closing">
+  <p class="closing-lead">중요한 것은 Agent의 <strong>개수</strong>가 아닙니다.<br>어떤 Agent가 어떤 업무를 수행하는지, 누가 책임지고, 실제로 성과를 내는지 <strong>아는 것</strong>이 핵심입니다.</p>
+  <div class="closing-tag">SAP AI Agent Hub<span class="closing-tag-sub">SAP Business AI Platform의 거버넌스 토대</span></div>
+  <div class="stack">
+    <span>SAP LeanIX</span>
+    <span>SAP Signavio</span>
+    <span>SAP Cloud ALM</span>
+  </div>
+</div>
+
+</div>
+
+<!-- VIDEO MODAL -->
+<div id="vm" role="dialog" aria-modal="true">
+  <div class="vm-inner">
+    <button class="vm-close" aria-label="닫기">✕</button>
+    <div class="vm-title"></div>
+    <video controls preload="metadata"></video>
+    <div class="vm-cap"></div>
+  </div>
+</div>
+
+<script>
+document.querySelectorAll('nav.bn a').forEach(a=>{
+  a.addEventListener('click',e=>{
+    e.preventDefault();
+    const t=document.querySelector(a.getAttribute('href'));
+    if(t)t.scrollIntoView({behavior:'smooth',block:'start'});
+    document.querySelectorAll('nav.bn a').forEach(x=>x.classList.remove('act'));
+    a.classList.add('act');
+  });
+});
+
+let vm, vmVideo, vmTitle, vmCap;
+function openVid(src,title,cap){
+  if(!vm) vm=document.getElementById('vm');
+  if(!vm) return;
+  vmVideo=vmVideo||vm.querySelector('video');
+  vmTitle=vmTitle||vm.querySelector('.vm-title');
+  vmCap=vmCap||vm.querySelector('.vm-cap');
+  vmVideo.src=src;
+  vmTitle.textContent=title;
+  vmCap.textContent=cap||'';
+  vm.classList.add('open');
+  vmVideo.play().catch(()=>{});
+}
+function closeVid(){
+  if(!vm) return;
+  vm.classList.remove('open');
+  vmVideo.pause();
+  vmVideo.removeAttribute('src');
+  vmVideo.load();
+}
+document.addEventListener('DOMContentLoaded', ()=>{
+  vm=document.getElementById('vm');
+  if(!vm) return;
+  vmVideo=vm.querySelector('video');
+  vmTitle=vm.querySelector('.vm-title');
+  vmCap=vm.querySelector('.vm-cap');
+  vm.querySelector('.vm-close').addEventListener('click',closeVid);
+  vm.addEventListener('click',e=>{if(e.target===vm)closeVid();});
+  vm.addEventListener('touchend',e=>{if(e.target===vm){e.preventDefault();closeVid();}},{passive:false});
+  document.querySelectorAll('.vid-btn').forEach(btn=>{
+    function triggerVid(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      openVid(btn.dataset.video, btn.dataset.title, btn.dataset.cap);
+    }
+    btn.addEventListener('click', triggerVid);
+    btn.addEventListener('touchend', triggerVid, {passive:false});
+  });
+});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&vm&&vm.classList.contains('open'))closeVid();});
+
+const sections=['why','what','how','anywhere'];
+window.addEventListener('scroll',()=>{
+  const y=window.scrollY+120;
+  let cur=sections[0];
+  sections.forEach(id=>{
+    const el=document.getElementById(id);
+    if(el && el.offsetTop<=y) cur=id;
+  });
+  document.querySelectorAll('nav.bn a').forEach(a=>{
+    a.classList.toggle('act',a.getAttribute('href')==='#'+cur);
+  });
+});
+
+// ── 언어 번역 (부모 페이지 postMessage 수신) ──────────────────────────────
+const AIH_TX = {
+  ko: {
+    hd_eyebrow: 'SAP Business AI Platform · Governance',
+    hd_h1_text: 'AI Agent Hub',
+    hd_p: '기업의 모든 AI Agent를 한곳에서 발견하고 관리하는 거버넌스 플랫폼',
+    nav_why: '왜 필요한가', nav_what: '무엇인가', nav_how: '어떻게 동작하는가', nav_anywhere: '어디서나 거버넌스',
+    why_h2: 'AI Agent가 늘어날수록,<br>통제되지 않는 <span class="warn">Shadow AI</span> 리스크도 커집니다',
+    why_p: 'AI Agent는 빠르게 늘어나고 있지만, 이를 관리하는 체계는 아직 부족합니다.',
+    left_tag: 'AI Agent 확산', left_h3: '각 부서와 플랫폼에서<br>AI Agent가 빠르게 생성되고 있습니다',
+    mid_tag: '거버넌스 공백',
+    mid_left: 'AI Agent 활용을<br>기대하는 기업', mid_right: '실제 거버넌스 체계를<br>갖춘 기업',
+    shadow: 'Agent는 늘어나지만, 관리 체계가 없습니다',
+    q1_qt: '가시성 부족', q1: '우리 회사에 어떤 Agent가 있나요?',
+    q2_qt: '책임 불명확', q2: '누가 승인하고 운영 책임을 지나요?',
+    q3_qt: '성과 불투명', q3: '실제로 성과를 내고 있나요?',
+    right_tag: 'SAP AI Agent Hub',
+    right_h3: 'AI Agent를 <span style="color:var(--pp)">체계적으로 관리</span>합니다',
+    step1: '<b>현황 파악</b> — 전사 Agent 인벤토리', step2: '<b>책임 관리</b> — 소유자·승인 상태',
+    step3: '<b>라이프사이클</b> — 생성부터 폐기까지', step4: '<b>리스크 관리</b> — 접근 권한 확인',
+    step5: '<b>맥락 연결</b> — 업무·시스템·데이터 연결',
+    why_close: 'AI Agent 확산의 다음 과제는 개발이 아니라 <span class="hl">거버넌스</span>입니다.',
+    what_sec: 'SAP AI Agent Hub란?',
+    what_def: '기업의 모든 <span class="hl">AI Agent</span>를 한곳에서 발견하고 관리하는 플랫폼입니다.<span class="sub">SAP뿐 아니라 Microsoft, Google, AWS 등 다양한 AI 환경도 함께 관리할 수 있습니다.</span>',
+    wc1_h: '벤더 중립', wc1_p: '어디서 만든 Agent든 한곳에서 통합 관리합니다.', wc1_note: 'SAP · Microsoft · Google · AWS · ServiceNow 지원',
+    wc2_h: '비즈니스 컨텍스트 연결', wc2_p: 'Agent를 업무 기능·시스템·데이터와 자동으로 연결합니다.', wc2_note: 'SAP LeanIX 기반',
+    wc3_h: '실제 성과 측정', wc3_p: 'Agent가 실제로 비즈니스 성과를 내는지 검증합니다.', wc3_note: 'SAP Signavio Agent Mining 기반',
+    wc4_h: '조직 영향 파악', wc4_p: '어떤 부서와 역할이 Agent로 바뀌는지 한눈에 보여줍니다.', wc4_note: 'SAP SuccessFactors 연동',
+    how_sec: '어떻게 동작하는가',
+    how_sub: '핵심 3단계 — 각 카드의 영상 버튼을 클릭해 보세요',
+    c1_h: 'Plan & Build — 처음부터 컨텍스트와 함께',
+    c1_q: '새 Agent가 회사의 업무와 시스템을 처음부터 알게 할 수 있을까요?',
+    c1_desc: 'Agent를 만드는 순간부터 거버넌스가 시작됩니다. 회사의 시스템 정보를 자동으로 조회해 <strong>기존 Agent·관련 시스템을 자동으로 연결</strong>합니다.',
+    c1_tip: '<strong>기술:</strong> Joule Studio + LeanIX MCP 서버 실시간 아키텍처 조회',
+    c2_h: '발견 & 인벤토리',
+    c2_q: '우리 회사에 어떤 Agent가 돌아가는지 한눈에 볼 수 있나요?',
+    c2_desc: '회사에서 사용 중인 <strong>모든 AI Agent를 자동으로 찾아 목록</strong>으로 보여줍니다. 실행 이력과 도구 호출 현황까지 한 화면에서 확인할 수 있습니다.',
+    c2_tip: '<strong>기술:</strong> Discovery Inbox · SAP, Microsoft, AWS 등 지원 · SAP Cloud ALM 연동',
+    c3_h: '검증 · 거버넌스 · 성과 측정',
+    c3_q: '승인된 Agent만 운영되고, 실제로 성과를 내고 있는지 어떻게 알 수 있나요?',
+    c3_desc: '<strong>검증을 마친 Agent만 운영에서 동작</strong>합니다. 상태가 바뀌면 즉시 액세스가 차단됩니다. Agent의 실행 기록을 분석해 <strong>"어디서, 왜 안 되는지"</strong>까지 파악할 수 있습니다.',
+    c3_tip: '<strong>기술:</strong> SAP Signavio Agent Mining · SAP Cloud ALM 연동',
+    bonus_h2: '익숙한 도구에서 그대로 거버넌스',
+    bonus_sub: '이미 사용 중인 AI 도구에서 동일한 거버넌스 정보를 사용할 수 있습니다.',
+    bc1_h: 'Claude · Copilot 연동', bc1_p: '익숙한 AI 어시스턴트에서 Agent 인벤토리 조회와 거버넌스를 바로 실행할 수 있습니다.',
+    closing_lead: '중요한 것은 Agent의 <strong>개수</strong>가 아닙니다.<br>어떤 Agent가 어떤 업무를 수행하는지, 누가 책임지고, 실제로 성과를 내는지 <strong>아는 것</strong>이 핵심입니다.',
+    btn_demo: '데모 보기', btn_intro: '도입',
+  },
+  en: {
+    hd_eyebrow: 'SAP Business AI Platform · Governance',
+    hd_h1_text: 'AI Agent Hub',
+    hd_p: 'The governance platform to discover and manage all AI Agents in your enterprise — in one place.',
+    nav_why: 'Why It Matters', nav_what: 'What It Is', nav_how: 'How It Works', nav_anywhere: 'Governance Anywhere',
+    why_h2: 'As AI Agents multiply,<br>so does the risk of uncontrolled <span class="warn">Shadow AI</span>.',
+    why_p: 'AI Agents are growing fast — but the frameworks to govern them are lagging behind.',
+    left_tag: 'AI Agent Sprawl', left_h3: 'AI Agents are being created<br>rapidly across departments<br>and platforms.',
+    mid_tag: 'Governance Gap',
+    mid_left: 'Enterprises expecting<br>meaningful AI Agent<br>adoption', mid_right: 'Enterprises with a<br>mature AI governance<br>model',
+    shadow: 'Agents are proliferating — but governance frameworks are not keeping up.',
+    q1_qt: 'No Visibility', q1: 'Which AI Agents exist in our company?',
+    q2_qt: 'No Accountability', q2: 'Who approved them — and who is responsible?',
+    q3_qt: 'No Outcomes', q3: 'Are they actually delivering results?',
+    right_tag: 'SAP AI Agent Hub',
+    right_h3: 'Manage AI Agents <span style="color:var(--pp)">systematically.</span>',
+    step1: '<b>Visibility</b> — Enterprise-wide Agent inventory', step2: '<b>Accountability</b> — Owner & approval status',
+    step3: '<b>Lifecycle</b> — From creation to decommission', step4: '<b>Risk</b> — Access & operational risk review',
+    step5: '<b>Context</b> — Linked to capabilities, apps & data',
+    why_close: 'The next challenge of AI Agent adoption is not development — it is <span class="hl">governance</span>.',
+    what_sec: 'What is SAP AI Agent Hub?',
+    what_def: 'A platform to <span class="hl">discover and manage every AI Agent</span> in your enterprise — in one place.<span class="sub">Supports not only SAP but also Microsoft, Google, AWS, and more.</span>',
+    wc1_h: 'Vendor-Neutral', wc1_p: 'Manage agents from any vendor in one unified view.', wc1_note: 'SAP · Microsoft · Google · AWS · ServiceNow',
+    wc2_h: 'Business Context', wc2_p: 'Automatically link agents to business capabilities, systems, and data.', wc2_note: 'Powered by SAP LeanIX',
+    wc3_h: 'Outcome Measurement', wc3_p: 'Validate whether agents are delivering real business results.', wc3_note: 'SAP Signavio Agent Mining',
+    wc4_h: 'Workforce Impact', wc4_p: 'See which teams and roles are being augmented or replaced by agents.', wc4_note: 'SAP SuccessFactors integration',
+    how_sec: 'How It Works',
+    how_sub: '3 key stages — click the video button on each card.',
+    c1_h: 'Plan & Build — Governance from Day One',
+    c1_q: 'Can a new Agent understand our business processes and systems from the start?',
+    c1_desc: 'Governance starts the moment you build an agent. Company system information is queried automatically to <strong>identify related agents and systems.</strong>',
+    c1_tip: '<strong>Tech:</strong> Joule Studio + LeanIX MCP Server live architecture query',
+    c2_h: 'Discover & Inventory',
+    c2_q: 'Can we see all the Agents running in our company at a glance?',
+    c2_desc: '<strong>Automatically finds and lists every AI Agent</strong> in use. Execution history and tool call status — all in one screen.',
+    c2_tip: '<strong>Tech:</strong> Discovery Inbox · Supports SAP, Microsoft, AWS · SAP Cloud ALM integration',
+    c3_h: 'Govern · Validate · Measure',
+    c3_q: 'How do we ensure only approved Agents run — and that they are actually delivering results?',
+    c3_desc: '<strong>Only verified agents run in production.</strong> Access is blocked immediately if status changes. Execution logs are analyzed to find <strong>"where and why"</strong> things go wrong.',
+    c3_tip: '<strong>Tech:</strong> SAP Signavio Agent Mining · SAP Cloud ALM integration',
+    bonus_h2: 'Governance — Wherever You Work',
+    bonus_sub: 'Access the same governance data from the AI tools you already use.',
+    bc1_h: 'Claude · Copilot Integration', bc1_p: 'Query the agent inventory and trigger governance actions directly from familiar AI assistants.',
+    closing_lead: "What matters is not how many agents you have.<br>It's knowing <strong>which agents</strong> do what, who is responsible, and whether they're delivering results.",
+    btn_demo: 'Watch Demo', btn_intro: 'Intro',
+  }
+};
+
+function aihApplyLang(lang) {
+  const T = AIH_TX[lang];
+  // Header
+  document.querySelector('.hd-eyebrow').textContent = T.hd_eyebrow;
+  document.querySelector('.hd h1 .hl').textContent = T.hd_h1_text;
+  document.querySelector('.hd p').textContent = T.hd_p;
+  // Nav
+  const navLinks = document.querySelectorAll('nav.bn a');
+  ['nav_why','nav_what','nav_how','nav_anywhere'].forEach((k,i) => { if(navLinks[i]) navLinks[i].textContent = T[k]; });
+  // WHY section
+  document.querySelector('.why-head h2').innerHTML = T.why_h2;
+  document.querySelector('.why-head p').textContent = T.why_p;
+  const cols = document.querySelectorAll('.why-col-tag');
+  if(cols[0]) cols[0].textContent = T.left_tag;
+  if(cols[1]) cols[1].textContent = T.mid_tag;
+  if(cols[2]) cols[2].textContent = T.right_tag;
+  document.querySelector('.why-col.left h3').innerHTML = T.left_h3;
+  document.querySelector('.why-col.right h3').innerHTML = T.right_h3;
+  const bsub = document.querySelectorAll('.big-stat-sub span');
+  if(bsub[0]) bsub[0].innerHTML = T.mid_left;
+  if(bsub[1]) bsub[1].innerHTML = T.mid_right;
+  const shadowEl = document.querySelector('.shadow-warn');
+  if(shadowEl) { const spans = shadowEl.querySelectorAll('span'); if(spans[1]) spans[1].textContent = T.shadow; }
+  const qItems = document.querySelectorAll('.q-list li');
+  [['q1_qt','q1'],['q2_qt','q2'],['q3_qt','q3']].forEach(([qtk,qk],i) => {
+    if(qItems[i]) qItems[i].innerHTML = '<span class="qt">'+T[qtk]+'</span>'+T[qk];
+  });
+  const steps = document.querySelectorAll('.hub-steps li');
+  ['step1','step2','step3','step4','step5'].forEach((k,i) => {
+    if(steps[i]) { const nm=steps[i].querySelector('.nm'); steps[i].innerHTML=''; if(nm)steps[i].appendChild(nm); steps[i].innerHTML+=('<span>'+T[k]+'</span>'); }
+  });
+  document.querySelector('.why-close').innerHTML = T.why_close;
+  // WHAT
+  document.querySelector('.what .sec-title').innerHTML = '<span class="st-num">2</span>'+T.what_sec;
+  document.querySelector('.what-def p').innerHTML = T.what_def;
+  const wCards = document.querySelectorAll('.what-card');
+  [['wc1_h','wc1_p','wc1_note'],['wc2_h','wc2_p','wc2_note'],['wc3_h','wc3_p','wc3_note'],['wc4_h','wc4_p','wc4_note']].forEach(([hk,pk,nk],i) => {
+    if(wCards[i]) {
+      wCards[i].querySelector('h4').textContent = T[hk];
+      const ps = wCards[i].querySelectorAll('p');
+      if(ps[0]) ps[0].textContent = T[pk];
+      if(ps[1]) ps[1].textContent = T[nk];
+    }
+  });
+  // HOW
+  document.querySelector('.how .sec-title').innerHTML = '<span class="st-num">3</span>'+T.how_sec;
+  document.querySelector('.how .sec-sub').textContent = T.how_sub;
+  const cards = document.querySelectorAll('.card');
+  [[T.c1_h,T.c1_q,T.c1_desc,T.c1_tip],[T.c2_h,T.c2_q,T.c2_desc,T.c2_tip],[T.c3_h,T.c3_q,T.c3_desc,T.c3_tip]].forEach(([h,q,d,tip],i) => {
+    if(!cards[i]) return;
+    const body = cards[i].querySelector('.card-body');
+    if(body) {
+      body.querySelector('h3').textContent = h;
+      const qEl = body.querySelector('.card-q'); if(qEl) qEl.textContent = q;
+      const dEl = body.querySelector('.card-desc'); if(dEl) dEl.innerHTML = d;
+      const tEl = body.querySelector('.card-tip'); if(tEl) tEl.innerHTML = tip||'';
+    }
+  });
+  // Bonus
+  document.querySelector('.bonus h2').textContent = T.bonus_h2;
+  document.querySelector('.bonus-sub').innerHTML = T.bonus_sub;
+  const bc = document.querySelectorAll('.bonus-card');
+  if(bc[0]) { bc[0].querySelector('h4').textContent = T.bc1_h; bc[0].querySelector('p').textContent = T.bc1_p; }
+  // Closing
+  document.querySelector('.closing-lead').innerHTML = T.closing_lead;
+  // Buttons
+  document.querySelectorAll('.vid-btn').forEach(btn => {
+    const spans = btn.querySelectorAll('span');
+    if(spans[0] && spans[0].classList.contains('play')) {
+      // "데모 보기" span이 있는 경우
+    }
+  });
+  document.documentElement.lang = lang;
+}
+
+window.addEventListener('message', e => {
+  if (e.data && e.data.type === 'setLang') aihApplyLang(e.data.lang);
+});
+
+</script>
+</body>
+</html>
